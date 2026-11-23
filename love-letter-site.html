@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>A Letter For You</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Pinyon+Script&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#070203;--red:#c0112f;--deep:#5a0d1c;--gold:#f0c674;--cream:#f3e3c7}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow:hidden}
+body{background:radial-gradient(circle at 50% 28%,rgba(160,15,40,.38),transparent 62%),var(--bg)}
+#hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#hearts span{position:absolute;bottom:-40px;color:var(--red);animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(25deg)}}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:calc(env(safe-area-inset-top,0px) + 16px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .8s,transform .8s,visibility .8s}
+.screen.on{opacity:1;visibility:visible;transform:none}
+.cap{font:400 .85rem 'Cinzel',Georgia,serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.script{font-family:'Pinyon Script',cursive;font-weight:400;color:var(--gold);text-shadow:0 0 22px rgba(240,198,116,.55)}
+.big{font-size:clamp(4rem,22vw,6.5rem);line-height:1}
+.hint{font-style:italic;font-size:1.25rem;opacity:.85}
+.btn{font:600 .95rem 'Cinzel',Georgia,serif;letter-spacing:.14em;text-transform:uppercase;padding:14px 28px;min-height:48px;border-radius:999px;border:1px solid var(--gold);background:linear-gradient(#a50f2a,#6e0c1d);color:var(--cream);cursor:pointer;box-shadow:0 0 22px rgba(192,17,47,.5)}
+.btn:focus-visible,.tap:focus-visible,.mem:focus-visible,#gear:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.tap{background:none;border:0;color:inherit;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:14px}
+.beat{animation:beat 1.6s infinite}
+@keyframes beat{0%,100%{transform:scale(1)}20%{transform:scale(1.08)}40%{transform:scale(1)}60%{transform:scale(1.06)}}
+#gear{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:4;background:none;border:1px solid rgba(240,198,116,.35);color:var(--gold);border-radius:99px;padding:6px 12px;font:.8rem 'Cinzel',serif;opacity:.55;cursor:pointer}
+.env{position:relative;width:min(86vw,380px);aspect-ratio:1.5;background:var(--deep);border-radius:6px;box-shadow:0 0 50px rgba(192,17,47,.5)}
+.lt{position:absolute;left:6%;right:6%;top:8%;bottom:10%;background:#f6e9d8;border-radius:3px;z-index:1;transition:transform .9s .6s}
+.front{position:absolute;inset:0;background:linear-gradient(#7d1226,#5a0d1c);clip-path:polygon(0 100%,0 14%,50% 62%,100% 14%,100% 100%);z-index:2;border-radius:6px}
+.flap{position:absolute;left:0;right:0;top:0;height:62%;background:linear-gradient(#8c162c,#6a0f21);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .9s,z-index 0s .45s;z-index:3}
+.seal{position:absolute;left:50%;top:56%;width:17%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff5a76,#a50f2a 70%);box-shadow:0 3px 14px #000;display:grid;place-items:center;z-index:4;font-size:1.5rem;color:var(--gold);transition:opacity .4s}
+.env.open .flap{transform:rotateX(180deg);z-index:0}
+.env.open .seal{opacity:0}
+.env.open .lt{transform:translateY(-34%)}
+.paper{width:min(92vw,440px);max-height:70vh;overflow:auto;background:linear-gradient(#1c0609,#10030a);border:1px solid rgba(240,198,116,.45);border-radius:12px;padding:24px 22px;box-shadow:0 0 44px rgba(192,17,47,.4);text-align:left}
+.paper h1{font-size:1.9rem;margin:6px 0 10px;text-align:center}
+#txt{white-space:pre-wrap;font-size:1.32rem;line-height:1.5;min-height:6em}
+.sign{margin-top:14px;text-align:right;font-size:2rem;opacity:0;transition:opacity 1s}
+.sign.show{opacity:1}
+.clock{display:flex;gap:8px;justify-content:center}
+.clock div{min-width:66px;padding:10px 6px;border:1px solid rgba(240,198,116,.5);border-radius:10px;background:rgba(20,3,8,.8)}
+.clock b{display:block;font:600 1.7rem 'Cinzel',serif;color:var(--gold)}
+.clock i{font:normal .6rem 'Cinzel',serif;letter-spacing:.14em;text-transform:uppercase}
+.mems{display:flex;flex-direction:column;gap:10px;width:min(92vw,400px)}
+.mem{min-height:64px;padding:12px 16px;border-radius:12px;border:1px solid rgba(240,198,116,.4);background:rgba(20,3,8,.82);color:var(--cream);font:inherit;font-size:1.2rem;cursor:pointer;text-align:center}
+.mem b{display:block;font:600 .85rem 'Cinzel',serif;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.ans{position:relative;width:min(90vw,340px);height:130px}
+.ans .btn{position:absolute;top:40px;transition:left .25s,top .25s}
+#yes{left:4%}#no{left:56%;background:#1b0a0e;box-shadow:none}
+#win{display:none;font-size:1.5rem;max-width:90vw}
+.fx{position:fixed;bottom:-30px;color:var(--red);animation:rise 3.5s ease-in forwards;pointer-events:none;z-index:9}
+.sheet{position:fixed;inset:0;z-index:6;background:rgba(0,0,0,.7);display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:.3s}
+.sheet.on{opacity:1;visibility:visible}
+.sheet>div{width:min(100vw,480px);max-height:92vh;overflow:auto;background:#17060b;border:1px solid rgba(240,198,116,.4);border-radius:20px 20px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom,0px) + 18px)}
+.sheet label{display:block;margin:10px 0 4px;font:.75rem 'Cinzel',serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.sheet input,.sheet textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(240,198,116,.5);background:#0b0305;color:var(--cream);font:1.15rem 'Cormorant Garamond',serif}
+.sheet textarea{height:150px;resize:none}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.ghost{background:none;box-shadow:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style></head><body>
+<div id="hearts" aria-hidden="true"></div>
+<button id="gear" aria-label="Personalize this letter">Edit ✎</button>
+
+<section class="screen on" id="s0">
+  <p class="cap">Made with endless love ♥</p>
+  <button class="tap" id="go0" aria-label="Tap to start"><span class="script big beat">Click Me</span><span class="hint">I wrote a letter that only opens when you tap it</span></button>
+</section>
+
+<section class="screen" id="s1">
+  <p class="cap">Something for <span class="her"></span></p>
+  <button class="tap" id="go1" aria-label="Open the envelope">
+    <div class="env" id="env"><div class="lt"></div><div class="front"></div><div class="flap"></div><div class="seal">♥</div></div>
+    <span class="hint">Tap the seal to open</span>
+  </button>
+</section>
+
+<section class="screen" id="s2">
+  <div class="paper" id="paper">
+    <p class="cap" style="text-align:center">A Letter For <span class="her"></span></p>
+    <h1 class="script">A Letter For You</h1>
+    <div id="txt"></div>
+    <p class="sign script" id="sign"></p>
+  </div>
+  <button class="btn" id="n2" style="display:none" data-go="3">Our story ♥</button>
+</section>
+
+<section class="screen" id="s3">
+  <p class="cap">The beginning of forever</p>
+  <h2 class="script" style="font-size:2.6rem">Our forever started</h2>
+  <div class="clock"><div><b id="d">0</b><i>days</i></div><div><b id="h">0</b><i>hours</i></div><div><b id="m">0</b><i>mins</i></div><div><b id="sx">0</b><i>secs</i></div></div>
+  <p class="cap" style="margin-top:6px">Our memories · tap each one</p>
+  <div class="mems" id="mems"></div>
+  <button class="btn" data-go="4">One more thing</button>
+</section>
+
+<section class="screen" id="s4">
+  <p class="cap">Made with endless love ♥</p>
+  <h2 class="script" style="font-size:3rem;line-height:1.1">Will you be mine forever?</h2>
+  <div class="ans" id="ans"><button class="btn" id="yes">Yes ♥</button><button class="btn" id="no">No</button></div>
+  <p class="script" id="win"></p>
+</section>
+
+<div class="sheet" id="sheet"><div>
+  <p class="cap">Make it yours</p>
+  <label for="fher">Her name</label><input id="fher" maxlength="30">
+  <label for="fme">Your name</label><input id="fme" maxlength="30">
+  <label for="fdate">Our day (when it began)</label><input id="fdate" type="date">
+  <label for="fletter">Your letter</label><textarea id="fletter" maxlength="900"></textarea>
+  <div class="row"><button class="btn ghost" id="fc">Cancel</button><button class="btn" id="fs">Save</button></div>
+</div></div>
+
+<script>
+const $=s=>document.querySelector(s),scr=[...document.querySelectorAll('.screen')];
+const D={her:'My Love',me:'',start:'2025-02-14',
+letter:"My Love,\n\nYou are my today and all of my tomorrows.\n\nEvery ordinary day became special the moment you were in it.\n\nThank you for being my peace, my laughter, my everything.\n\nI wrote this letter in code because some feelings are too big for a text message.\n\nI love you endlessly."};
+const MEM=[['The day we met','I didn’t know it yet, but my whole life was about to change.'],['Your laugh','My favourite sound in the whole world.'],['Us, on any day','Even the simplest day feels like a movie with you.']];
+let cfg={...D};try{Object.assign(cfg,JSON.parse(localStorage.getItem('loveCfg')||'{}'))}catch(e){}
+let cur=0,T;
+function render(){document.querySelectorAll('.her').forEach(e=>e.textContent=cfg.her);
+ $('#sign').textContent='Forever yours'+(cfg.me?', '+cfg.me:'')+' ♥';
+ $('#mems').innerHTML='';MEM.forEach(([a,b])=>{const k=document.createElement('button');k.className='mem';k.innerHTML='<b></b><span></span>';k.firstChild.textContent=a;k.lastChild.textContent='♥';k.onclick=()=>{k.lastChild.textContent=k.lastChild.textContent==='♥'?b:'♥'};$('#mems').appendChild(k)})}
+function go(i){clearInterval(T);scr[cur].classList.remove('on');cur=i;scr[i].classList.add('on');$('#gear').style.display=i===0?'':'none';if(i===2)typeIt()}
+function typeIt(){const el=$('#txt'),t=cfg.letter;let i=0;el.textContent='';$('#sign').classList.remove('show');$('#n2').style.display='none';
+ const fin=()=>{clearInterval(T);el.textContent=t;$('#sign').classList.add('show');$('#n2').style.display=''};
+ T=setInterval(()=>{el.textContent=t.slice(0,++i);$('#paper').scrollTop=1e5;if(i>=t.length)fin()},32);$('#paper').onclick=fin}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(+b.dataset.go)});
+$('#go0').onclick=()=>go(1);
+$('#go1').onclick=()=>{$('#env').classList.add('open');setTimeout(()=>go(2),1700)};
+
+function tick(){const s=new Date(cfg.start+'T00:00:00');let d=Math.abs(new Date()-s);if(isNaN(d))d=0;
+ $('#d').textContent=Math.floor(d/864e5);$('#h').textContent=Math.floor(d/36e5)%24;$('#m').textContent=Math.floor(d/6e4)%60;$('#sx').textContent=Math.floor(d/1e3)%60}
+setInterval(tick,1000);
+
+function burst(n){for(let i=0;i<n;i++){const s=document.createElement('span');s.className='fx';s.textContent='♥';s.style.left=Math.random()*100+'vw';s.style.fontSize=(14+Math.random()*30)+'px';s.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),5200)}}
+function dodge(e){e.preventDefault();const a=$('#ans'),n=$('#no');n.style.left=Math.random()*(a.clientWidth-n.offsetWidth)+'px';n.style.top=Math.random()*(a.clientHeight-n.offsetHeight)+'px'}
+$('#no').addEventListener('pointerenter',dodge);$('#no').addEventListener('pointerdown',dodge);$('#no').addEventListener('click',dodge);
+$('#yes').onclick=()=>{$('#ans').style.display='none';const w=$('#win');w.textContent='I knew it ♥ I love you, '+cfg.her+'. Always.';w.style.display='block';burst(45)};
+
+$('#gear').onclick=()=>{$('#fher').value=cfg.her;$('#fme').value=cfg.me;$('#fdate').value=cfg.start;$('#fletter').value=cfg.letter;$('#sheet').classList.add('on')};
+$('#fc').onclick=()=>$('#sheet').classList.remove('on');
+$('#fs').onclick=()=>{cfg={her:$('#fher').value.trim()||D.her,me:$('#fme').value.trim(),start:$('#fdate').value||D.start,letter:$('#fletter').value.trim()||D.letter};
+ try{localStorage.setItem('loveCfg',JSON.stringify(cfg))}catch(e){}render();$('#sheet').classList.remove('on')};
+
+const H=$('#hearts');for(let i=0;i<26;i++){const s=document.createElement('span');s.textContent='♥';s.style.left=Math.random()*100+'%';s.style.fontSize=(10+Math.random()*22)+'px';s.style.opacity=.15+Math.random()*.4;s.style.animationDuration=(9+Math.random()*10)+'s';s.style.animationDelay=(-Math.random()*14)+'s';H.appendChild(s)}
+render();tick();
+</script></body></html>
